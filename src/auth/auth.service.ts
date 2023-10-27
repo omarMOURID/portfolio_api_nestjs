@@ -1,14 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { authConstant } from './auth.constant';
 
 @Injectable()
 export class AuthService {
 
     private readonly user = {
-        username: authConstant.username,
-        password: authConstant.password
+        username: process.env.LOGIN_USERNAME,
+        password: process.env.LOGIN_PASSWORD
     };
 
     constructor(

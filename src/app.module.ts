@@ -10,7 +10,9 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRoot(`mongodb+srv://${process.env.USERNAME_DB}:${process.env.PASSWORD_DB}@cluster0.bxgfqkv.mongodb.net`, {dbName: "portfolio"}), 
     ProjectsModule, 
     ToolsModule, AuthModule
