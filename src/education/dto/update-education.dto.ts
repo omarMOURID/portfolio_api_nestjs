@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, Validate, IsBoolean, IsOptional  } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
-import { isValidYear } from "./create-education.dto";
+import { IsYeard } from "./create-education.dto";
 
 
 export class UpdateEducationDto {
@@ -22,16 +22,14 @@ export class UpdateEducationDto {
     @ApiProperty({ type: String, required: false, description: 'Description of the education' })
     description: string;
 
-    @Validate((value: string) => isValidYear(value), {
-        message: 'From must be a valid year',
-    })
+    @IsNotEmpty()
+    @Validate(IsYeard)
     @IsOptional()
     @ApiProperty({ type: String, required: false, description: 'Starting year of the education' })
     from: string;
 
-    @Validate((value: string) => isValidYear(value), {
-        message: 'To must be a valid year',
-    })
+    @IsNotEmpty()
+    @Validate(IsYeard)
     @IsOptional()
     @ApiProperty({ type: String, required: false, description: 'Ending year of the education' })
     to: string;

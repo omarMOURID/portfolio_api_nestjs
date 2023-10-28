@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Education, EducationDocument } from './education.schema';
 import { Model } from 'mongoose';
@@ -10,6 +10,9 @@ export class EducationService {
     constructor(@InjectModel(Education.name) private readonly educationModel: Model<Education>) {}
 
     async createEducation(educationDto: CreateEducationDto): Promise<Education> {
+        if(parseInt(educationDto.to) < parseInt(educationDto.from)) {
+            throw new BadRequestException("To must be greater than From");
+        }
         const education = new this.educationModel(educationDto);
         await education.save()
         return education;
@@ -30,6 +33,10 @@ export class EducationService {
         educationDto.from && (education.from = educationDto.from);
         educationDto.to && (education.to = educationDto.to);
         educationDto.inProgress && (education.inProgress = educationDto.inProgress);
+
+        if(parseInt(education.to.toString()) < parseInt(education.from.toString())) {
+            throw new BadRequestException("To must be greater than From");
+        }
 
         await education.save();
 

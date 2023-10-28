@@ -1,8 +1,21 @@
-import { IsString, IsNotEmpty, Validate, IsBoolean  } from "class-validator";
+import { IsString, IsNotEmpty, Validate, IsBoolean, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
 
 
-export const isValidYear = (value: string) => /^\d{4}$/.test(value);
+
+@ValidatorConstraint({ name: 'customText', async: false })
+export class IsYeard implements ValidatorConstraintInterface {
+    validate(text: string, args: ValidationArguments): boolean {
+        return /^\d{4}$/.test(text); // for async validations you must return a Promise<boolean> here
+    }
+
+    defaultMessage(args: ValidationArguments): string {
+        // here you can provide default error message if validation failed
+        return '$property ($value) is not a valide year form';
+    }
+}
+
+
 export class CreateEducationDto {
     @IsString()
     @IsNotEmpty()
@@ -19,15 +32,13 @@ export class CreateEducationDto {
     @ApiProperty({ type: String, description: 'Description of the education' })
     description: string;
 
-    @Validate((value: string) => isValidYear(value), {
-        message: 'From must be a valid year',
-    })
+    @IsNotEmpty()
+    @Validate(IsYeard)
     @ApiProperty({ type: String, description: 'Starting year of the education' })
     from: string;
 
-    @Validate((value: string) => isValidYear(value), {
-        message: 'To must be a valid year',
-    })
+    @IsNotEmpty()
+    @Validate(IsYeard)
     @ApiProperty({ type: String, description: 'Ending year of the education' })
     to: string;
 
