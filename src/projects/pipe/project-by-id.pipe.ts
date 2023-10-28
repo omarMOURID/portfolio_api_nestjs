@@ -9,14 +9,14 @@ export class ProjectByIdPipe implements PipeTransform<string, Promise<ProjectDoc
 
     async transform(value: string, metadata: ArgumentMetadata): Promise<ProjectDocument> {
         if(!isValidObjectId(value)) {
-            throw new NotFoundException('No tool with that id');
+            throw new NotFoundException('No project with that id');
         }
 
         const id = value;
         const project = await this.projectService.getProjectById(id);
 
         if(!project) {
-            throw new NotFoundException('No tool with that id');
+            throw new NotFoundException('No project with that id');
         } 
 
         return project;

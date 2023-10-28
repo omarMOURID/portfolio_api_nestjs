@@ -22,26 +22,12 @@ export class UserService {
 
     async updateUser(userDto: UserDto): Promise<UserDocument> {
         const user = await this.getOrCreateUser();
-
+        console.log(userDto)
         userDto.firstname && (user.firstname = userDto.firstname);
         userDto.lastname && (user.lastname = userDto.lastname);
         userDto.age && (user.age = userDto.age);
         userDto.description && (user.description = userDto.description);
-
-        if(userDto.socialMedia) {
-            if (userDto.socialMedia.length > 0) {
-                userDto.socialMedia.forEach(sc => {
-                    if ((sc.type != "github" && sc.type != "linkedIn" && sc.type != "instagram")) throw new BadRequestException("the social media type should be in [github, linkedIn, instagram]");
-                });
-    
-                if (!(userDto.socialMedia[0].type != userDto.socialMedia[1].type && userDto.socialMedia[0].type != userDto.socialMedia[2].type && userDto.socialMedia[1].type != userDto.socialMedia[2].type)) {
-                    throw new BadRequestException("the social media type should have max one link for evey type [github, linkedIn, instagram]");
-                }
-            }
-            
-            user.socialMedia = userDto.socialMedia;
-        }
-        
+        userDto.socialMedia && (user.socialMedia = userDto.socialMedia);
 
         await user.save();
 

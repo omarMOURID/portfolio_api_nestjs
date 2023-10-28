@@ -25,7 +25,7 @@ export class User {
     phoneNumber: String;
 
     @Prop({type: String})
-    Location: String;
+    location: String;
 
     @Prop({type: String})
     image: String;
