@@ -17,7 +17,6 @@ async function bootstrap() {
     .setTitle("My portfolio api documentation")
     .setDescription("The Portfolio Management API provides endpoints to handle and manipulate portfolio data, enabling dynamic content updates on my website without the need for manual rewriting.")
     .setVersion('1.0')
-    .addTag('portfolio')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -1,0 +1,9 @@
+Dockerfile
+.dockerignore
+src/
+**/node_modules/
+**/dist
+**/test
+**/upload
+.gitignore
+*.md

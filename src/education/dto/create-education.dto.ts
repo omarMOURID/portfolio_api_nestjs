@@ -3,8 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 
 
-@ValidatorConstraint({ name: 'customText', async: false })
-export class IsYeard implements ValidatorConstraintInterface {
+@ValidatorConstraint({ name: 'yearValidator', async: false })
+export class IsYear implements ValidatorConstraintInterface {
     validate(text: string, args: ValidationArguments): boolean {
         return /^\d{4}$/.test(text); // for async validations you must return a Promise<boolean> here
     }
@@ -33,12 +33,12 @@ export class CreateEducationDto {
     description: string;
 
     @IsNotEmpty()
-    @Validate(IsYeard)
+    @Validate(IsYear)
     @ApiProperty({ type: String, description: 'Starting year of the education' })
     from: string;
 
     @IsNotEmpty()
-    @Validate(IsYeard)
+    @Validate(IsYear)
     @ApiProperty({ type: String, description: 'Ending year of the education' })
     to: string;
 
