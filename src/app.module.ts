@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { EducationModule } from './education/education.module';
 import { ExperienceModule } from './experience/experience.module';
+import { ContactModule } from './contact/contact.module';
 
 
 @Module({
@@ -18,7 +19,7 @@ import { ExperienceModule } from './experience/experience.module';
     }),
     MongooseModule.forRoot(`mongodb+srv://${process.env.USERNAME_DB}:${process.env.PASSWORD_DB}@cluster0.bxgfqkv.mongodb.net`, {dbName: "portfolio"}), 
     ProjectsModule, 
-    ToolsModule, AuthModule, UserModule, EducationModule, ExperienceModule
+    ToolsModule, AuthModule, UserModule, EducationModule, ExperienceModule, ContactModule
   ],
   controllers: [AppController],
   providers: [AppService],
