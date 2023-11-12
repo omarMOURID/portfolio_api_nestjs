@@ -3,14 +3,24 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Contact, ContactDocument } from './contact.schema';
 import { CreateContactDto } from './create-contact.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class ContactService {
-    constructor(@InjectModel(Contact.name) private readonly contactModel: Model<Contact>) {}
+    constructor(
+        @InjectModel(Contact.name) private readonly contactModel: Model<Contact>,
+        private eventEmitter: EventEmitter2,    
+    ) {}
 
     async createContact(contactDto: CreateContactDto): Promise<Contact> {
         const contact = new this.contactModel(contactDto);
-        await contact.save()
+        await contact.save();
+        this.eventEmitter.emit(
+            'contact.create',
+            {
+                contact: contact,
+            }
+        );
         return contact;
     }
 
