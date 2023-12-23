@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['error', 'warn'],
   });
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({whitelist: true}));
   app.useStaticAssets(join(__dirname, '..', 'upload'));
 
   const config = new DocumentBuilder()

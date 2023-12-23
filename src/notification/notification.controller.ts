@@ -1,7 +1,7 @@
-import { Controller, Sse } from '@nestjs/common';
+import { Controller, Get, Sse } from '@nestjs/common';
 import { Observable, interval } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
+import { Notification } from './notification.schema';
 
 
 interface MessageEvent {
@@ -13,7 +13,12 @@ export class NotificationController {
     constructor(private readonly notificationService: NotificationService) {}
 
     @Sse('sse')
-    sse(): Observable<any> {
+    sse(): Observable<Notification> {
         return this.notificationService.sendEvents();
+    }
+
+    @Get('')
+    async getNotifications(): Promise<Notification[]> {
+        return this.notificationService.getALLNotification();
     }
 }
